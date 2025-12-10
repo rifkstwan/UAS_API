@@ -13,6 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // Enable stateful API middleware for Passport
+        $middleware->statefulApi();
+        
+        // Register custom middleware alias
         $middleware->alias([
             'passport' => CheckPassportToken::class,
         ]);
