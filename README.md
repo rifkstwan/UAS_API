@@ -1,66 +1,273 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 UAS API - Machine to Machine (M2M) Authentication
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API untuk Ujian Akhir Semester - Pengembangan Aplikasi Bisnis menggunakan Laravel 11 dengan OAuth2 Client Credentials Grant (M2M/H2H)
 
-## About Laravel
+[![Laravel](https://img.shields.io/badge/Laravel-11.x-red.svg)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.4-blue.svg)](https://php.net)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 📋 Deskripsi Project
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Aplikasi REST API yang mengimplementasikan **Machine to Machine (M2M)** dan **Host to Host (H2H)** authentication menggunakan **Laravel Passport Client Credentials Grant**. API ini menyediakan 8 endpoint untuk layanan umum dan data pasar saham.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Fitur Utama
 
-## Learning Laravel
+- ✅ **Laravel 11** - Framework PHP terbaru
+- ✅ **Laravel Passport** - OAuth2 Server Implementation
+- ✅ **Client Credentials Grant** - M2M/H2H Authentication
+- ✅ **8 API Endpoints** - General Services & Stock Market
+- ✅ **Swagger UI** - Interactive API Documentation
+- ✅ **JWT Token** - Secure Bearer Token Authentication
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🎯 API Endpoints
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 📂 General Services (4 Endpoints)
 
-## Laravel Sponsors
+| Method | Endpoint | Deskripsi | Parameter |
+|--------|----------|-----------|-----------|
+| `GET` | `/api/weather` | Mendapatkan informasi cuaca | `city` (required) |
+| `GET` | `/api/currency` | Mendapatkan nilai tukar mata uang | `from`, `to` (required) |
+| `GET` | `/api/news` | Mendapatkan artikel berita | `category` (required) |
+| `POST` | `/api/data` | Mengirim data payload | JSON body |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 📈 Stock Market (4 Endpoints)
 
-### Premium Partners
+| Method | Endpoint | Deskripsi | Parameter |
+|--------|----------|-----------|-----------|
+| `GET` | `/api/stock/price` | Mendapatkan harga saham | `symbol` (required) |
+| `GET` | `/api/stock/profile` | Mendapatkan profil perusahaan | `symbol` (required) |
+| `GET` | `/api/stock/historical` | Mendapatkan data historis saham | `symbol`, `from`, `to` |
+| `GET` | `/api/stock/movers` | Mendapatkan saham teratas | `type` (gainers/losers) |
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## 📖 Dokumentasi API
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Akses **Swagger UI** untuk dokumentasi interaktif:
 
-## Code of Conduct
+http://localhost:8000/api/documentation
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**Fitur Swagger UI:**
+- 🔐 Authorize dengan Bearer Token
+- 🧪 Try It Out untuk test endpoint langsung
+- 📋 Request/Response schema lengkap
+- 📝 Parameter description
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🔑 Authentication Flow (M2M/H2H)
 
-## License
+### 1️⃣ Request OAuth2 Token
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+curl -X POST http://localhost:8000/api/oauth/token
+-H "Content-Type: application/json"
+-d '{
+"grant_type": "client_credentials",
+"client_id": "YOUR_CLIENT_ID",
+"client_secret": "YOUR_CLIENT_SECRET"
+}'
+
+
+**Response:**
+{
+"token_type": "Bearer",
+"expires_in": 31536000,
+"access_token": "eyJ0eXAiOiJKV1QiLCJhbGc..."
+}
+
+
+### 2️⃣ Gunakan Token untuk Request API
+
+curl -X GET "http://localhost:8000/api/weather?city=Jakarta"
+-H "Authorization: Bearer YOUR_ACCESS_TOKEN"
+
+
+**Response:**
+{
+"status": "success",
+"data": {
+"city": "Jakarta",
+"temperature": "28°C",
+"condition": "Partly Cloudy"
+}
+}
+
+---
+
+## 💻 Installation & Setup
+
+### Prerequisites
+
+- PHP 8.2 atau lebih tinggi
+- Composer
+- MySQL/MariaDB
+- Git
+
+### Step 1: Clone Repository
+
+git clone https://github.com/rifkstwan/UAS_API.git
+cd UAS_API
+
+
+### Step 2: Install Dependencies
+
+composer install
+
+
+### Step 3: Environment Configuration
+
+cp .env.example .env
+php artisan key:generate
+
+
+Edit `.env` dan sesuaikan database:
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=uas_api
+DB_USERNAME=root
+DB_PASSWORD=your_password
+
+
+### Step 4: Database Migration
+
+php artisan migrate
+
+
+### Step 5: Install Passport
+
+php artisan passport:install
+
+
+### Step 6: Create OAuth2 Client
+
+php artisan passport:client --client
+
+
+**Simpan Client ID dan Client Secret yang muncul!**
+
+### Step 7: Generate Swagger Documentation
+
+php artisan l5-swagger:generate
+
+
+### Step 8: Run Development Server
+
+php artisan serve
+
+
+Aplikasi berjalan di `http://localhost:8000`
+
+---
+
+## 🧪 Testing API
+
+### Test dengan cURL
+
+1. Get Token
+TOKEN=$(curl -s -X POST http://localhost:8000/api/oauth/token
+-H "Content-Type: application/json"
+-d '{"grant_type":"client_credentials","client_id":"YOUR_ID","client_secret":"YOUR_SECRET"}'
+| jq -r '.access_token')
+
+2. Test Weather Endpoint
+curl -X GET "http://localhost:8000/api/weather?city=Jakarta"
+-H "Authorization: Bearer $TOKEN"
+
+3. Test Stock Price
+curl -X GET "http://localhost:8000/api/stock/price?symbol=AAPL"
+-H "Authorization: Bearer $TOKEN"
+
+
+### Test dengan Swagger UI
+
+1. Buka `http://localhost:8000/api/documentation`
+2. Klik tombol **"Authorize"**
+3. Masukkan: `Bearer YOUR_ACCESS_TOKEN`
+4. Klik **"Authorize"** → **"Close"**
+5. Pilih endpoint dan klik **"Try it out"**
+6. Isi parameter dan klik **"Execute"**
+
+---
+
+## 📁 Project Structure
+
+
+```
+
+UAS_API/
+├── app/
+│ ├── Http/
+│ │ ├── Controllers/
+│ │ │ └── Api/
+│ │ │ └── GoApiController.php # Main API Controller
+│ │ └── Middleware/
+│ │ └── ApiTokenMiddleware.php # Token Validation
+│ └── Providers/
+│ ├── AppServiceProvider.php
+│ └── AuthServiceProvider.php # Passport Configuration
+├── config/
+│ └── l5-swagger.php # Swagger Configuration
+├── database/
+│ └── migrations/ # Passport OAuth Tables
+├── resources/
+│ └── views/
+│ └── swagger.blade.php # Swagger UI Template
+├── routes/
+│ ├── api.php # API Routes
+│ └── web.php # Web Routes (Swagger)
+└── storage/
+└── api-docs/
+└── api-docs.json # Generated Swagger JSON
+
+```
+
+---
+
+## 🛠️ Technologies Used
+
+- **Backend:** Laravel 11
+- **Authentication:** Laravel Passport (OAuth2)
+- **Documentation:** L5-Swagger (OpenAPI 3.0)
+- **Database:** MySQL
+- **PHP Version:** 8.4
+- **Token Type:** JWT (JSON Web Token)
+
+---
+
+## 👨‍💻 Author
+
+**Rifki Setiawan**  
+📧 Email: rifkikurniawan2233@gmail.com  
+🎓 Pengembangan Aplikasi Bisnis - UAS 2025
+
+---
+
+## 📚 References
+
+- [Laravel Documentation](https://laravel.com/docs/11.x)
+- [Laravel Passport](https://laravel.com/docs/11.x/passport)
+- [L5-Swagger](https://github.com/DarkaOnLine/L5-Swagger)
+- [OAuth2 Client Credentials Grant](https://oauth.net/2/grant-types/client-credentials/)
+
+---
+
+## 📝 License
+
+This project is open-sourced software licensed under the [MIT license](LICENSE).
+
+---
+
+## 🙏 Acknowledgments
+
+Terima kasih kepada:
+- Dosen Pengembangan Aplikasi Bisnis
+- Laravel Community
+- OpenAPI/Swagger Community
+
+---
+
+**⭐ Star this repository if you find it helpful!**
