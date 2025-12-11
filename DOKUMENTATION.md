@@ -11,13 +11,13 @@ Dokumentasi lengkap mengenai alur kerja, arsitektur sistem, dan flow diagram dar
 
 ## 1. Authentication Flow
 
+```mermaid
 sequenceDiagram
 participant Client as Client Application
 participant API as Laravel API
 participant Passport as Passport OAuth2
 participant DB as Database
 
-text
 Client->>API: POST /api/oauth/token
 Note right of Client: grant_type: client_credentials<br/>client_id: xxx<br/>client_secret: yyy
 
@@ -28,7 +28,7 @@ DB-->>Passport: Client Valid ✅
 Passport->>Passport: Generate JWT Token
 Passport->>DB: Store in oauth_access_tokens
 Passport-->>API: Return Token
-API-->>Client: 200 OK + Token<br/>{"access_token": "eyJ...", "expires_in": 31536000}
+API-->>Client: 200 OK + Token<br/>{"access_token": "eyJ...", "expires_in": 31536000"}
 
 Note over Client,DB: API Request Phase
 
@@ -38,7 +38,7 @@ Passport->>DB: Check oauth_access_tokens
 DB-->>Passport: Token Valid & Not Expired ✅
 Passport-->>API: Authenticated
 API-->>Client: 200 OK + Data
-text
+```
 
 **Penjelasan langkah:**
 
@@ -60,6 +60,7 @@ text
 
 ## 2. API Request Flow
 
+```mermaid
 flowchart TD
 Start([Client Request]) --> Token{Token Valid?}
 Token -->|No| E401[401 Unauthorized]
@@ -75,13 +76,12 @@ E401 --> End([End])
 E422 --> End
 Success --> End
 
-text
 style Start fill:#4CAF50
 style Token fill:#2196F3
 style Success fill:#4CAF50
 style E401 fill:#F44336
 style E422 fill:#FF9800
-text
+```
 
 **Diagram menjelaskan proses request:**
 1. **Token Validation** - Setiap request dicek token Bearer-nya
@@ -102,12 +102,12 @@ text
 
 ## 3. General Services Flow
 
+```mermaid
 flowchart TD
 Start([POST/GET Request]) --> Auth{Authenticated?}
 Auth -->|No| E401[401 Error]
 Auth -->|Yes| Route{Route Type?}
 
-text
 Route -->|Weather| Weather[GET /api/weather]
 Route -->|Currency| Currency[GET /api/currency]
 Route -->|News| News[GET /api/news]
@@ -141,7 +141,7 @@ Success --> End
 style Success fill:#4CAF50
 style E401 fill:#F44336
 style E422 fill:#FF9800
-text
+```
 
 **Flow untuk 4 endpoint General Services:**
 
@@ -169,12 +169,12 @@ text
 
 ## 4. Stock Market Services Flow
 
+```mermaid
 flowchart TD
 Start([Stock API Request]) --> Auth{Token Valid?}
 Auth -->|No| E401[401 Error]
 Auth -->|Yes| Endpoint{Endpoint Type?}
 
-text
 Endpoint -->|Price| Price[GET /stock/price]
 Endpoint -->|Profile| Profile[GET /stock/profile]
 Endpoint -->|Historical| Historical[GET /stock/historical]
@@ -208,7 +208,7 @@ Success --> End
 style Success fill:#4CAF50
 style E401 fill:#F44336
 style E422 fill:#FF9800
-text
+```
 
 **Flow untuk 4 endpoint Stock Market:**
 
@@ -232,6 +232,7 @@ text
 
 ## 5. System Architecture
 
+```mermaid
 graph TB
 subgraph Clients["Client Layer"]
 Mobile[Mobile App]
@@ -240,7 +241,6 @@ Server[Backend Service]
 Cron[Scheduled Tasks]
 end
 
-text
 subgraph API["Laravel API Server"]
     Route[Routes]
     MW[OAuth2 Middleware]
@@ -290,7 +290,7 @@ style Controller fill:#4CAF50
 style Passport fill:#2196F3
 style MySQL fill:#9C27B0
 style Swagger fill:#FF9800
-text
+```
 
 **Arsitektur sistem terdiri dari:**
 
@@ -310,6 +310,7 @@ text
 
 ## 6. Middleware Flow
 
+```mermaid
 flowchart LR
 Request[HTTP Request] --> Route[Router]
 Route --> MW1[CORS Middleware]
@@ -322,12 +323,11 @@ Valid -->|No| Reject[401 Unauthorized]
 Controller --> Response[JSON Response]
 Reject --> Response
 
-text
 style Request fill:#2196F3
 style Controller fill:#4CAF50
 style Reject fill:#F44336
 style Response fill:#FFC107
-text
+```
 
 **Middleware chain:**
 1. **CORS Middleware** - Handle cross-origin requests
@@ -353,8 +353,6 @@ text
 "client_id": "your-client-id",
 "client_secret": "your-client-secret"
 }
-
-text
 
 ---
 
@@ -399,8 +397,6 @@ text
 "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9..."
 }
 
-text
-
 ### Weather Response
 
 {
@@ -414,8 +410,6 @@ text
 },
 "timestamp": "2025-12-11T10:30:00Z"
 }
-
-text
 
 ### Stock Price Response
 
@@ -432,8 +426,6 @@ text
 }
 }
 
-text
-
 ### POST Data Response
 
 {
@@ -447,8 +439,6 @@ text
 }
 }
 
-text
-
 ---
 
 ## 9. Error Response Examples
@@ -458,8 +448,6 @@ text
 {
 "message": "Unauthenticated."
 }
-
-text
 
 **Cause:**
 - Missing Authorization header
@@ -473,8 +461,6 @@ curl -X POST http://localhost:8000/api/oauth/token
 -H "Content-Type: application/json"
 -d '{"grant_type":"client_credentials","client_id":"xxx","client_secret":"yyy"}'
 
-text
-
 ---
 
 ### 422 Validation Error
@@ -487,8 +473,6 @@ text
 "symbol": ["The symbol field is required"]
 }
 }
-
-text
 
 **Cause:**
 - Missing required parameters
@@ -504,8 +488,6 @@ text
 "message": "Endpoint not found"
 }
 
-text
-
 **Cause:**
 - Wrong endpoint URL
 - Typo in route
@@ -520,8 +502,6 @@ text
 "message": "Internal server error",
 "code": "SERVER_ERROR"
 }
-
-text
 
 **Cause:**
 - External API down
@@ -555,7 +535,6 @@ git add .env
 
 ✅ Good
 Add .env to .gitignore
-text
 
 2. **Use HTTPS in production**
 Force HTTPS redirect
@@ -564,21 +543,15 @@ listen 80;
 return 301 https://$server_name$request_uri;
 }
 
-text
-
 3. **Rotate tokens regularly**
 Revoke old tokens
 DELETE FROM oauth_access_tokens WHERE created_at < DATE_SUB(NOW(), INTERVAL 30 DAY);
-
-text
 
 4. **Implement rate limiting**
 // In routes/api.php
 Route::middleware(['auth:api', 'throttle:60,1'])->group(function () {
 // API routes
 });
-
-text
 
 5. **Monitor authentication logs**
 // Log failed attempts
@@ -587,14 +560,13 @@ Log::warning('Failed authentication attempt', [
 'ip' => $request->ip()
 ]);
 
-text
-
 ---
 
 ## 11. Token Management
 
 ### Token Lifecycle
 
+```mermaid
 stateDiagram-v2
 [] --> Created: Generate Token
 Created --> Active: Token Issued
@@ -605,13 +577,12 @@ Active --> Revoked: Manual Revoke
 Expired --> []
 Revoked --> [*]
 
-text
 note right of Active
     Default: 1 year
     Configurable via
     Passport config
 end note
-text
+```
 
 ### Token Properties
 
@@ -642,8 +613,6 @@ created_at TIMESTAMP,
 updated_at TIMESTAMP
 );
 
-text
-
 ### oauth_access_tokens Table
 
 CREATE TABLE oauth_access_tokens (
@@ -658,8 +627,6 @@ updated_at TIMESTAMP,
 expires_at DATETIME,
 FOREIGN KEY (client_id) REFERENCES oauth_clients(id)
 );
-
-text
 
 ---
 
@@ -677,8 +644,6 @@ curl -X POST http://localhost:8000/api/oauth/token
 "client_secret": "your-client-secret"
 }'
 
-text
-
 #### 2. Test Weather Endpoint
 
 TOKEN="your-access-token-here"
@@ -686,14 +651,10 @@ TOKEN="your-access-token-here"
 curl -X GET "http://localhost:8000/api/weather?city=Jakarta"
 -H "Authorization: Bearer $TOKEN"
 
-text
-
 #### 3. Test Stock Endpoint
 
 curl -X GET "http://localhost:8000/api/stock/price?symbol=AAPL"
 -H "Authorization: Bearer $TOKEN"
-
-text
 
 #### 4. Test POST Endpoint
 
@@ -704,8 +665,6 @@ curl -X POST "http://localhost:8000/api/data"
 "name": "Test Data",
 "value": "Sample Value"
 }'
-
-text
 
 ---
 
@@ -737,6 +696,7 @@ text
 
 ### Optimization Strategies
 
+```mermaid
 graph LR
 Request[API Request] --> Cache{Cache?}
 Cache -->|Hit| Fast[Fast Response]
@@ -745,10 +705,9 @@ DB --> Store[Update Cache]
 Store --> Response[Return Data]
 Fast --> Response
 
-text
 style Fast fill:#4CAF50
 style DB fill:#2196F3
-text
+```
 
 **Recommendations:**
 - ✅ Cache frequently accessed data
@@ -771,8 +730,6 @@ text
 "message": "Client authentication failed"
 }
 
-text
-
 **Solution:**
 Check client exists
 php artisan tinker
@@ -781,8 +738,6 @@ php artisan tinker
 
 Create new client
 php artisan passport:client --client
-
-text
 
 ---
 
@@ -793,20 +748,15 @@ text
 "message": "Unauthenticated."
 }
 
-text
-
 **Solutions:**
 1. Check token format: `Bearer {token}`
 2. Verify token not expired
 3. Check middleware configuration:
 php artisan route:list | grep api
 
-text
 4. Clear cache:
 php artisan config:clear
 php artisan cache:clear
-
-text
 
 ---
 
@@ -824,16 +774,12 @@ php artisan view:clear
 Check routes
 php artisan route:list | grep documentation
 
-text
-
 ---
 
 #### ❌ Database Connection Error
 
 **Error:**
 SQLSTATE[HY000] Connection refused
-
-text
 
 **Solutions:**
 Check MySQL status
@@ -848,8 +794,6 @@ DB_PORT=3306
 DB_DATABASE=uas_api
 DB_USERNAME=root
 DB_PASSWORD=your_password
-
-text
 
 ---
 
@@ -888,10 +832,10 @@ text
 
 ### Monitoring Metrics
 
+```mermaid
 graph TD
 Monitor[Monitoring System] --> Metrics
 
-text
 Metrics --> M1[Request Rate]
 Metrics --> M2[Error Rate]
 Metrics --> M3[Response Time]
@@ -907,7 +851,7 @@ Alert -->|Normal| Continue[Continue Monitoring]
 
 style Alert fill:#FF9800
 style Notify fill:#F44336
-text
+```
 
 **Key Metrics to Monitor:**
 - ✅ API request rate (requests/second)
@@ -1011,8 +955,6 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
-text
 
 ---
 
